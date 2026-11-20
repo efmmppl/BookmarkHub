@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>重复书签 - BookmarkHub</title>
+  <link rel="stylesheet" href="duplicate-bookmarks.css">
+</head>
+<body>
+  <main class="page">
+    <h1>重复书签</h1>
+    <p class="intro">按网址完全相同查找重复项。选择要删除的书签，文件夹不会被删除。</p>
+    <div class="toolbar">
+      <div id="status" role="status" aria-live="polite">正在准备扫描…</div>
+      <div class="toolbar-actions">
+        <button id="select-all" type="button" disabled>全选（每组保留一个）</button>
+        <button id="delete-selected" type="button" disabled>删除选中书签</button>
+      </div>
+    </div>
+    <div id="duplicate-groups"></div>
+  </main>
+  <script src="duplicate-bookmarks.js"></script>
+  <script src="duplicate-bookmarks-page.js"></script>
+</body>
+</html>
