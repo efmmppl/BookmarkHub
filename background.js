@@ -8,8 +8,10 @@ if (chrome.action && !chrome.browserAction) {
 }
 
 importScripts(
+  'static/js/service-worker-fetch-adapter.js',
   'static/js/runtime-background.8bf6f715.js',
   'static/js/0.21c7cb30.chunk.js',
   'static/js/8.8c0486d4.chunk.js',
+  'static/js/install-service-worker-fetch-adapter.js',
   'static/js/background.db1159e9.chunk.js'
 );
