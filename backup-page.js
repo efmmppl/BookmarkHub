@@ -1,4 +1,5 @@
 (function () {
+  const t = BookmarkHubI18n.t;
   const status = document.getElementById('status');
   const count = document.getElementById('local-count');
   const exportButton = document.getElementById('export');
@@ -19,9 +20,9 @@
     try {
       const tree = await getTree();
       const payload = BookmarkHubData.exportBookmarks(tree);
-      count.textContent = `本地书签：${BookmarkHubData.countBookmarks(payload.bookmarks)} 个`;
+      count.textContent = t('localBookmarkCount', [BookmarkHubData.countBookmarks(payload.bookmarks)]);
     } catch (error) {
-      count.textContent = `读取本地书签失败：${error.message}`;
+      count.textContent = `${t('countFailed')}${error.message}`;
     }
   }
 
@@ -44,9 +45,9 @@
       link.click();
       link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      status.textContent = `已导出 ${BookmarkHubData.countBookmarks(payload.bookmarks)} 个书签。`;
+      status.textContent = t('exportedCount', [BookmarkHubData.countBookmarks(payload.bookmarks)]);
     } catch (error) {
-      status.textContent = `导出失败：${error.message}`;
+      status.textContent = `${t('exportFailed')}${error.message}`;
     } finally {
       exportButton.disabled = false;
     }
@@ -64,15 +65,15 @@
       const total = BookmarkHubData.countBookmarks(data.bookmarks);
       const clear = clearCheckbox.checked;
       const prompt = clear
-        ? `将清空本地书签，并导入 ${total} 个书签，确定吗？`
-        : `将把 ${total} 个书签合并到本地，确定吗？`;
+        ? t('confirmImportClear', [total])
+        : t('confirmImportMerge', [total]);
       if (!window.confirm(prompt)) return;
-      status.textContent = '正在导入…';
+      status.textContent = t('importing');
       const created = await BookmarkHubData.importBookmarks(data.bookmarks, chrome, { clear });
-      status.textContent = `已导入 ${created} 个书签。`;
+      status.textContent = t('importedCount', [created]);
       await refreshCount();
     } catch (error) {
-      status.textContent = `导入失败：${error.message}`;
+      status.textContent = `${t('importFailed')}${error.message}`;
     } finally {
       importButton.disabled = false;
       fileInput.value = '';

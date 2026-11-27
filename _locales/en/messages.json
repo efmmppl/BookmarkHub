@@ -86,5 +86,269 @@
     "removeAllBookmarksDesc": {
         "message": "Remove All Bookmarks, Please backup first",
         "description": ""
+    },
+    "saveSettings": {
+        "message": "Save Settings",
+        "description": ""
+    },
+    "settingsSaved": {
+        "message": "Saved",
+        "description": ""
+    },
+    "settingsTitle": {
+        "message": "Bookmark Sync Settings",
+        "description": ""
+    },
+    "settingsSubtitle": {
+        "message": "Configure your GitHub token and Gist to sync bookmarks across browsers",
+        "description": ""
+    },
+    "toolDuplicates": {
+        "message": "Find duplicates",
+        "description": "Tool page entry on the popup"
+    },
+    "toolHistory": {
+        "message": "Bookmark history",
+        "description": "Tool page entry on the popup"
+    },
+    "toolBackup": {
+        "message": "Backup / Restore",
+        "description": "Tool page entry on the popup"
+    },
+    "duplicatesTitle": {
+        "message": "Duplicate Bookmarks",
+        "description": "Duplicates tool page heading"
+    },
+    "duplicatesIntro": {
+        "message": "Find bookmarks whose URLs are exactly identical. Select the bookmarks to delete; folders will not be deleted.",
+        "description": "Duplicates tool page intro"
+    },
+    "duplicatesStatusInitial": {
+        "message": "Preparing to scan\u2026",
+        "description": "Duplicates tool page initial status"
+    },
+    "selectAll": {
+        "message": "Select all (keep one per group)",
+        "description": "Duplicates tool page button"
+    },
+    "deselectAll": {
+        "message": "Deselect all",
+        "description": "Duplicates tool page button after select all"
+    },
+    "deleteSelected": {
+        "message": "Delete selected bookmarks",
+        "description": "Duplicates tool page button"
+    },
+    "scanningBookmarks": {
+        "message": "Scanning bookmarks\u2026",
+        "description": "Duplicates tool page status"
+    },
+    "readBookmarksFailed": {
+        "message": "Failed to read bookmarks: ",
+        "description": "Duplicates tool page status prefix"
+    },
+    "noDuplicates": {
+        "message": "No duplicate bookmarks with exactly identical URLs found.",
+        "description": "Duplicates tool page status"
+    },
+    "foundDuplicates": {
+        "message": "Found $1 duplicate groups, $2 bookmarks in total.",
+        "description": "Duplicates tool page status"
+    },
+    "duplicateGroupHeading": {
+        "message": "Duplicate URL ($1)",
+        "description": "Duplicates tool page group heading"
+    },
+    "selectAriaLabel": {
+        "message": "Select to delete $1",
+        "description": "Duplicates tool page checkbox aria-label"
+    },
+    "confirmDeleteSelected": {
+        "message": "Delete the $1 selected bookmark(s)? This action cannot be undone.",
+        "description": "Duplicates tool page confirm dialog"
+    },
+    "deletedSummary": {
+        "message": "Deleted $1 bookmarks, $2 failed: $3",
+        "description": "Duplicates tool page status after deletion with failures"
+    },
+    "deletedSummaryOk": {
+        "message": "Deleted $1 bookmarks.",
+        "description": "Duplicates tool page status after deletion"
+    },
+    "deleteFailed": {
+        "message": "Delete failed: ",
+        "description": "Duplicates tool page status prefix"
+    },
+    "noSelection": {
+        "message": "Select the bookmarks to delete first.",
+        "description": "Duplicates tool page status"
+    },
+    "historyTitle": {
+        "message": "Gist Bookmark History",
+        "description": "History tool page heading"
+    },
+    "historyIntro": {
+        "message": "Restore local bookmarks from a Gist revision, or roll back the Gist to an older version. Restoring locally clears the current bookmarks first.",
+        "description": "History tool page intro"
+    },
+    "historyStatusInitial": {
+        "message": "Preparing\u2026",
+        "description": "History tool page initial status"
+    },
+    "refresh": {
+        "message": "Refresh",
+        "description": "History tool page button"
+    },
+    "loadMore": {
+        "message": "Load more",
+        "description": "History tool page button"
+    },
+    "loadingHistory": {
+        "message": "Loading Gist history\u2026",
+        "description": "History tool page status"
+    },
+    "loadedCount": {
+        "message": "Loaded $1 revisions.",
+        "description": "History tool page status"
+    },
+    "loadFailed": {
+        "message": "Failed to load: ",
+        "description": "History tool page status prefix"
+    },
+    "noMoreRevisions": {
+        "message": "No more revisions.",
+        "description": "History tool page status"
+    },
+    "noRevisions": {
+        "message": "No revisions yet.",
+        "description": "History tool page status"
+    },
+    "downloadToLocal": {
+        "message": "Download to local",
+        "description": "History tool page action button"
+    },
+    "restoreGist": {
+        "message": "Restore Gist",
+        "description": "History tool page action button"
+    },
+    "revisionChanges": {
+        "message": "+$1 / -$2",
+        "description": "History tool page revision change summary"
+    },
+    "confirmRestoreLocal": {
+        "message": "Clear local bookmarks and write the revision from $1? Continue?",
+        "description": "History tool page confirm dialog"
+    },
+    "restoringLocal": {
+        "message": "Restoring local bookmarks\u2026",
+        "description": "History tool page status"
+    },
+    "restoredLocalCount": {
+        "message": "Restored $1 bookmarks locally.",
+        "description": "History tool page status"
+    },
+    "confirmRestoreGist": {
+        "message": "Roll the Gist back to the revision from $1? Continue?",
+        "description": "History tool page confirm dialog"
+    },
+    "restoringGist": {
+        "message": "Restoring Gist\u2026",
+        "description": "History tool page status"
+    },
+    "gistRestored": {
+        "message": "The Gist has been rolled back to the selected revision.",
+        "description": "History tool page status"
+    },
+    "historyNeedSettings": {
+        "message": "Set your GitHub Token and Gist ID in Settings first.",
+        "description": "History tool page status"
+    },
+    "historyInitFailed": {
+        "message": "Init failed: ",
+        "description": "History tool page status prefix"
+    },
+    "historyRestoreFailed": {
+        "message": "Restore failed: ",
+        "description": "History tool page status prefix"
+    },
+    "historyRolledBack": {
+        "message": "previous bookmarks have been restored",
+        "description": "History tool page status suffix"
+    },
+    "historyRollbackFailed": {
+        "message": "restoring previous bookmarks failed: ",
+        "description": "History tool page status suffix"
+    },
+    "revisionEmptyError": {
+        "message": "The Gist file content is empty",
+        "description": "History tool page error"
+    },
+    "revisionTruncatedError": {
+        "message": "The Gist file is truncated and has no raw URL",
+        "description": "History tool page error"
+    },
+    "rawFetchFailed": {
+        "message": "Failed to read raw content: ",
+        "description": "History tool page error prefix"
+    },
+    "backupTitle": {
+        "message": "Backup & Restore",
+        "description": "Backup tool page heading"
+    },
+    "backupIntro": {
+        "message": "Export local bookmarks to a JSON backup file, or import bookmarks from a backup file. Import merges into \u201cOther bookmarks\u201d by default.",
+        "description": "Backup tool page intro"
+    },
+    "backupStatusInitial": {
+        "message": "Preparing\u2026",
+        "description": "Backup tool page initial status"
+    },
+    "exportBackup": {
+        "message": "Export backup",
+        "description": "Backup tool page button"
+    },
+    "importBackup": {
+        "message": "Import backup",
+        "description": "Backup tool page button"
+    },
+    "clearFirstLabel": {
+        "message": "Clear local bookmarks before import (dangerous, please export a backup first)",
+        "description": "Backup tool page checkbox label"
+    },
+    "localBookmarkCount": {
+        "message": "Local bookmarks: $1",
+        "description": "Backup tool page count line"
+    },
+    "countFailed": {
+        "message": "Failed to read local bookmarks: ",
+        "description": "Backup tool page count line prefix"
+    },
+    "exportedCount": {
+        "message": "Exported $1 bookmarks.",
+        "description": "Backup tool page status"
+    },
+    "exportFailed": {
+        "message": "Export failed: ",
+        "description": "Backup tool page status prefix"
+    },
+    "confirmImportClear": {
+        "message": "Clear local bookmarks and import $1 bookmarks? Continue?",
+        "description": "Backup tool page confirm dialog"
+    },
+    "confirmImportMerge": {
+        "message": "Merge $1 bookmarks into local bookmarks? Continue?",
+        "description": "Backup tool page confirm dialog"
+    },
+    "importing": {
+        "message": "Importing\u2026",
+        "description": "Backup tool page status"
+    },
+    "importedCount": {
+        "message": "Imported $1 bookmarks.",
+        "description": "Backup tool page status"
+    },
+    "importFailed": {
+        "message": "Import failed: ",
+        "description": "Backup tool page status prefix"
     }
 }

@@ -1,4 +1,5 @@
 (function () {
+  const t = BookmarkHubI18n.t;
   const groupsContainer = document.getElementById('duplicate-groups');
   const status = document.getElementById('status');
   const selectAllButton = document.getElementById('select-all');
@@ -9,14 +10,14 @@
   function updateSelectAllButton() {
     const checkboxes = Array.from(groupsContainer.querySelectorAll('input[type="checkbox"]'));
     allSelected = checkboxes.length > 0 && checkboxes.every((checkbox) => checkbox.checked);
-    selectAllButton.textContent = allSelected ? '取消全选' : '全选（每组保留一个）';
+    selectAllButton.textContent = allSelected ? t('deselectAll') : t('selectAll');
   }
 
   function loadBookmarks(prefix = '') {
-    status.textContent = '正在扫描书签…';
+    status.textContent = t('scanningBookmarks');
     chrome.bookmarks.getTree((tree) => {
       if (chrome.runtime.lastError) {
-        status.textContent = `${prefix}读取书签失败：${chrome.runtime.lastError.message}`;
+        status.textContent = `${prefix}${t('readBookmarksFailed')}${chrome.runtime.lastError.message}`;
         return;
       }
       duplicates = BookmarkHubDuplicates.findDuplicateBookmarks(tree);
@@ -27,18 +28,18 @@
   function renderGroups(prefix = '') {
     groupsContainer.replaceChildren();
     if (!duplicates.length) {
-      status.textContent = `${prefix}没有发现网址完全相同的重复书签。`;
+      status.textContent = `${prefix}${t('noDuplicates')}`;
       selectAllButton.disabled = true;
       deleteButton.disabled = true;
       return;
     }
 
-    status.textContent = `${prefix}发现 ${duplicates.length} 组重复网址，共 ${duplicates.reduce((sum, group) => sum + group.bookmarks.length, 0)} 个书签。`;
+    status.textContent = `${prefix}${t('foundDuplicates', [duplicates.length, duplicates.reduce((sum, group) => sum + group.bookmarks.length, 0)])}`;
     duplicates.forEach((group) => {
       const section = document.createElement('section');
       section.className = 'duplicate-group';
       const heading = document.createElement('h2');
-      heading.textContent = `重复网址（${group.bookmarks.length} 个）`;
+      heading.textContent = t('duplicateGroupHeading', [group.bookmarks.length]);
       const link = document.createElement('a');
       link.href = group.url;
       link.textContent = group.url;
@@ -53,7 +54,7 @@
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = bookmark.id;
-        checkbox.setAttribute('aria-label', `选择删除 ${bookmark.title}`);
+        checkbox.setAttribute('aria-label', t('selectAriaLabel', [bookmark.title]));
         checkbox.addEventListener('change', updateSelectAllButton);
         const details = document.createElement('span');
         const title = document.createElement('strong');
@@ -86,10 +87,10 @@
   deleteButton.addEventListener('click', async () => {
     const selected = Array.from(groupsContainer.querySelectorAll('input[type="checkbox"]:checked'));
     if (!selected.length) {
-      status.textContent = '请先勾选要删除的书签。';
+      status.textContent = t('noSelection');
       return;
     }
-    if (!window.confirm(`确定删除选中的 ${selected.length} 个书签吗？此操作无法撤销。`)) return;
+    if (!window.confirm(t('confirmDeleteSelected', [selected.length]))) return;
 
     deleteButton.disabled = true;
     try {
@@ -103,11 +104,11 @@
         })
       );
       const message = failed.length
-        ? `已删除 ${removed} 个书签，${failed.length} 个删除失败：${failed[0].error.message}。`
-        : `已删除 ${removed} 个书签。`;
+        ? t('deletedSummary', [removed, failed.length, failed[0].error.message])
+        : t('deletedSummaryOk', [removed]);
       loadBookmarks(message);
     } catch (error) {
-      status.textContent = `删除失败：${error.message}`;
+      status.textContent = `${t('deleteFailed')}${error.message}`;
       deleteButton.disabled = false;
     }
   });

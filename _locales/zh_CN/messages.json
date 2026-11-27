@@ -86,5 +86,269 @@
     "removeAllBookmarksDesc": {
         "message": "清空本地浏览器书签，请先做好备份",
         "description": ""
+    },
+    "saveSettings": {
+        "message": "保存设置",
+        "description": ""
+    },
+    "settingsSaved": {
+        "message": "已保存",
+        "description": ""
+    },
+    "settingsTitle": {
+        "message": "书签同步设置",
+        "description": ""
+    },
+    "settingsSubtitle": {
+        "message": "配置 GitHub Token 与 Gist，在不同浏览器之间同步书签",
+        "description": ""
+    },
+    "toolDuplicates": {
+        "message": "查找重复书签",
+        "description": "弹出页工具入口"
+    },
+    "toolHistory": {
+        "message": "书签历史",
+        "description": "弹出页工具入口"
+    },
+    "toolBackup": {
+        "message": "备份/恢复",
+        "description": "弹出页工具入口"
+    },
+    "duplicatesTitle": {
+        "message": "重复书签",
+        "description": "重复书签工具页标题"
+    },
+    "duplicatesIntro": {
+        "message": "按网址完全相同查找重复项。选择要删除的书签，文件夹不会被删除。",
+        "description": "重复书签工具页说明"
+    },
+    "duplicatesStatusInitial": {
+        "message": "正在准备扫描…",
+        "description": "重复书签工具页初始状态"
+    },
+    "selectAll": {
+        "message": "全选（每组保留一个）",
+        "description": "重复书签工具页按钮"
+    },
+    "deselectAll": {
+        "message": "取消全选",
+        "description": "重复书签工具页全选后按钮"
+    },
+    "deleteSelected": {
+        "message": "删除选中书签",
+        "description": "重复书签工具页按钮"
+    },
+    "scanningBookmarks": {
+        "message": "正在扫描书签…",
+        "description": "重复书签工具页状态"
+    },
+    "readBookmarksFailed": {
+        "message": "读取书签失败：",
+        "description": "重复书签工具页状态前缀"
+    },
+    "noDuplicates": {
+        "message": "没有发现网址完全相同的重复书签。",
+        "description": "重复书签工具页状态"
+    },
+    "foundDuplicates": {
+        "message": "发现 $1 组重复网址，共 $2 个书签。",
+        "description": "重复书签工具页状态"
+    },
+    "duplicateGroupHeading": {
+        "message": "重复网址（$1 个）",
+        "description": "重复书签工具页分组标题"
+    },
+    "selectAriaLabel": {
+        "message": "选择删除 $1",
+        "description": "重复书签工具页复选框无障碍标签"
+    },
+    "confirmDeleteSelected": {
+        "message": "确定删除选中的 $1 个书签吗？此操作无法撤销。",
+        "description": "重复书签工具页确认对话框"
+    },
+    "deletedSummary": {
+        "message": "已删除 $1 个书签，$2 个删除失败：$3。",
+        "description": "重复书签工具页删除后状态（含失败）"
+    },
+    "deletedSummaryOk": {
+        "message": "已删除 $1 个书签。",
+        "description": "重复书签工具页删除后状态"
+    },
+    "deleteFailed": {
+        "message": "删除失败：",
+        "description": "重复书签工具页状态前缀"
+    },
+    "noSelection": {
+        "message": "请先勾选要删除的书签。",
+        "description": "重复书签工具页状态"
+    },
+    "historyTitle": {
+        "message": "Gist 书签历史",
+        "description": "历史工具页标题"
+    },
+    "historyIntro": {
+        "message": "从 Gist 的历史版本恢复本地书签，或把 Gist 回滚到旧版本。恢复本地会先清空当前书签。",
+        "description": "历史工具页说明"
+    },
+    "historyStatusInitial": {
+        "message": "正在准备…",
+        "description": "历史工具页初始状态"
+    },
+    "refresh": {
+        "message": "刷新",
+        "description": "历史工具页按钮"
+    },
+    "loadMore": {
+        "message": "加载更多",
+        "description": "历史工具页按钮"
+    },
+    "loadingHistory": {
+        "message": "正在读取 Gist 历史…",
+        "description": "历史工具页状态"
+    },
+    "loadedCount": {
+        "message": "共加载 $1 个版本。",
+        "description": "历史工具页状态"
+    },
+    "loadFailed": {
+        "message": "读取失败：",
+        "description": "历史工具页状态前缀"
+    },
+    "noMoreRevisions": {
+        "message": "没有更多版本了。",
+        "description": "历史工具页状态"
+    },
+    "noRevisions": {
+        "message": "没有历史版本。",
+        "description": "历史工具页状态"
+    },
+    "downloadToLocal": {
+        "message": "下载到本地",
+        "description": "历史工具页操作按钮"
+    },
+    "restoreGist": {
+        "message": "恢复 Gist",
+        "description": "历史工具页操作按钮"
+    },
+    "revisionChanges": {
+        "message": "+$1 / -$2",
+        "description": "历史工具页版本变更摘要"
+    },
+    "confirmRestoreLocal": {
+        "message": "将清空本地书签并写入 $1 的版本，确定吗？",
+        "description": "历史工具页确认对话框"
+    },
+    "restoringLocal": {
+        "message": "正在恢复本地书签…",
+        "description": "历史工具页状态"
+    },
+    "restoredLocalCount": {
+        "message": "已恢复 $1 个书签到本地。",
+        "description": "历史工具页状态"
+    },
+    "confirmRestoreGist": {
+        "message": "把 Gist 回滚到 $1 的版本，确定吗？",
+        "description": "历史工具页确认对话框"
+    },
+    "restoringGist": {
+        "message": "正在恢复 Gist…",
+        "description": "历史工具页状态"
+    },
+    "gistRestored": {
+        "message": "Gist 已回滚到所选版本。",
+        "description": "历史工具页状态"
+    },
+    "historyNeedSettings": {
+        "message": "请先在设置中填写 GitHub Token 和 Gist ID。",
+        "description": "历史工具页状态"
+    },
+    "historyInitFailed": {
+        "message": "初始化失败：",
+        "description": "历史工具页状态前缀"
+    },
+    "historyRestoreFailed": {
+        "message": "恢复失败：",
+        "description": "历史工具页状态前缀"
+    },
+    "historyRolledBack": {
+        "message": "已还原原有书签",
+        "description": "历史工具页状态后缀"
+    },
+    "historyRollbackFailed": {
+        "message": "还原原书签失败：",
+        "description": "历史工具页状态后缀"
+    },
+    "revisionEmptyError": {
+        "message": "Gist 文件内容为空",
+        "description": "历史工具页错误"
+    },
+    "revisionTruncatedError": {
+        "message": "Gist 文件被截断且缺少 raw 地址",
+        "description": "历史工具页错误"
+    },
+    "rawFetchFailed": {
+        "message": "读取 raw 内容失败：",
+        "description": "历史工具页错误前缀"
+    },
+    "backupTitle": {
+        "message": "备份与恢复",
+        "description": "备份工具页标题"
+    },
+    "backupIntro": {
+        "message": "把本地书签导出为 JSON 备份，或从备份文件导入。导入默认合入“其他书签”。",
+        "description": "备份工具页说明"
+    },
+    "backupStatusInitial": {
+        "message": "正在准备…",
+        "description": "备份工具页初始状态"
+    },
+    "exportBackup": {
+        "message": "导出备份",
+        "description": "备份工具页按钮"
+    },
+    "importBackup": {
+        "message": "导入备份",
+        "description": "备份工具页按钮"
+    },
+    "clearFirstLabel": {
+        "message": "导入前清空本地书签（危险，请先导出备份）",
+        "description": "备份工具页复选框标签"
+    },
+    "localBookmarkCount": {
+        "message": "本地书签：$1 个",
+        "description": "备份工具页书签数量行"
+    },
+    "countFailed": {
+        "message": "读取本地书签失败：",
+        "description": "备份工具页数量行前缀"
+    },
+    "exportedCount": {
+        "message": "已导出 $1 个书签。",
+        "description": "备份工具页状态"
+    },
+    "exportFailed": {
+        "message": "导出失败：",
+        "description": "备份工具页状态前缀"
+    },
+    "confirmImportClear": {
+        "message": "将清空本地书签，并导入 $1 个书签，确定吗？",
+        "description": "备份工具页确认对话框"
+    },
+    "confirmImportMerge": {
+        "message": "将把 $1 个书签合并到本地，确定吗？",
+        "description": "备份工具页确认对话框"
+    },
+    "importing": {
+        "message": "正在导入…",
+        "description": "备份工具页状态"
+    },
+    "importedCount": {
+        "message": "已导入 $1 个书签。",
+        "description": "备份工具页状态"
+    },
+    "importFailed": {
+        "message": "导入失败：",
+        "description": "备份工具页状态前缀"
     }
 }

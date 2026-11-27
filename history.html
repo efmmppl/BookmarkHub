@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>书签历史 - BookmarkHub</title>
-  <link rel="stylesheet" href="duplicate-bookmarks.css">
-  <link rel="stylesheet" href="tools.css">
+  <title data-i18n="historyTitle">书签历史 - BookmarkHub</title>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
   <main class="page">
-    <h1>Gist 书签历史</h1>
-    <p class="intro">从 Gist 的历史版本恢复本地书签，或把 Gist 回滚到旧版本。恢复本地会先清空当前书签。</p>
+    <h1 data-i18n="historyTitle">Gist 书签历史</h1>
+    <p class="intro" data-i18n="historyIntro">从 Gist 的历史版本恢复本地书签，或把 Gist 回滚到旧版本。恢复本地会先清空当前书签。</p>
     <div class="toolbar">
-      <div id="status" role="status" aria-live="polite">正在准备…</div>
+      <div id="status" role="status" aria-live="polite" data-i18n="historyStatusInitial">正在准备…</div>
       <div class="toolbar-actions">
-        <button id="refresh" type="button">刷新</button>
+        <button id="refresh" type="button" data-i18n="refresh">刷新</button>
       </div>
     </div>
     <div id="revision-list"></div>
-    <button id="load-more" type="button" hidden>加载更多</button>
+    <button id="load-more" type="button" hidden data-i18n="loadMore">加载更多</button>
   </main>
+  <script src="tools-i18n.js"></script>
   <script src="settings.js"></script>
   <script src="bookmark-data.js"></script>
   <script src="history-page.js"></script>
