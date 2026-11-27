@@ -13,6 +13,8 @@ BookmarkHub 是一款浏览器扩展，通过 GitHub Gist 在不同浏览器之�
 | 同步书签 | 把 Gist 上的书签合并到本地，再上传回 Gist |
 | 清空本地书签 | 删除本地全部书签，操作前请先备份 |
 | 查找重复书签 | 按网址完全相同分组，可勾选删除，不删除文件夹 |
+| 书签历史 | 浏览 Gist 的历史版本，可恢复到本地书签或回滚 Gist |
+| 备份/恢复 | 把本地书签导出为 JSON 备份，或从备份文件导入（可选清空本地） |
 | 设置 | 配置 GitHub Token、Gist ID、Gist 文件名、是否启用通知 |
 
 弹出页会显示本地书签数量与远程书签数量。
@@ -29,9 +31,10 @@ BookmarkHub 是一款浏览器扩展，通过 GitHub Gist 在不同浏览器之�
 ## 目录结构
 
 ```
-BookmarkHub_0.0.4/
+BookmarkHub/
 ├── manifest.json                 # 扩展清单（MV3）
-├── background.js / background.html
+├── background.js                 # MV3 service worker 入口
+├── package.json                  # 测试脚本（npm test）
 ├── popup.html                    # 工具栏弹出页
 ├── options.html                  # 设置页
 ├── duplicates.html               # 重复书签页
@@ -39,29 +42,36 @@ BookmarkHub_0.0.4/
 ├── duplicate-bookmarks-page.js   # 重复书签页交互
 ├── duplicate-bookmarks.css
 ├── duplicate-bookmarks-link.css
+├── history.html                  # 书签历史页
+├── history-page.js               # 书签历史页交互
+├── backup.html                   # 备份/恢复页
+├── backup-page.js                # 备份页交互
+├── bookmark-data.js              # 导出/导入/Gist 文件解析逻辑（可单测）
+├── settings.js                   # 读取后台设置（可单测）
+├── tools.css                     # 工具页共用样式
 ├── icons/                        # 16 / 32 / 48 / 128 图标
 ├── _locales/en、zh_CN            # 文案
 ├── static/                       # 打包后的 React 页面与后台脚本
-└── tests/duplicate-bookmarks.test.cjs
+└── tests/                        # Node 内置测试
 ```
 
-主界面与后台同步逻辑在 `static/js` 的 webpack 产物中；重复书签功能是本目录中的独立脚本。
+主界面与后台同步逻辑在 `static/js` 的 webpack 产物中；重复书签、书签历史、备份/恢复是本目录中的独立脚本，通过后台 `settings-bridge.js` 读取打包应用的设置。
 
 ## 权限
 
 - `bookmarks`：读写本地书签
 - `storage`：保存 Token、Gist 配置与通知开关
 - `notifications`：操作结果通知
-- `https://*.github.com/*`、`https://*.githubusercontent.com/*`：访问 GitHub API / Gist
+- `https://api.github.com/*`、`https://gist.githubusercontent.com/*`：访问 GitHub API / Gist
 
 后台通过 `https://api.github.com` 读写 Gist，请求头使用 `Authorization: token <GitHub Token>`。
 
 ## 测试
 
-重复书签逻辑可用 Node 内置测试运行：
+测试使用 Node 内置测试运行器：
 
 ```powershell
-node --test tests/duplicate-bookmarks.test.cjs
+npm test
 ```
 
-覆盖两点：仅当 URL 完全相同时归为一组；全选时每组保留第一条，其余标为待删除。
+也可以直接运行 `node --test`。覆盖重复书签分组、全选保留一条、批量删除与失败上报、备份导出/导入与 Gist 文件解析、设置读取，以及 MV3 fetch adapter 的请求/响应（含 `responseType: 'blob'`）。
