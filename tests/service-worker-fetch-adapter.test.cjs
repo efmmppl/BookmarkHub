@@ -62,6 +62,27 @@ test('fetch adapter rejects HTTP errors with the response attached', async () =>
   );
 });
 
+test('fetch adapter returns a Blob when responseType is blob', async () => {
+  const blob = new Blob(['blob-body'], { type: 'text/plain' });
+  const adapter = loadAdapter(async () => ({
+    status: 200,
+    statusText: 'OK',
+    headers: new Map(),
+    text: async () => 'text-body',
+    blob: async () => blob
+  }));
+
+  const response = await adapter({
+    url: 'https://gist.githubusercontent.com/example/raw',
+    method: 'get',
+    headers: {},
+    responseType: 'blob'
+  });
+
+  assert.equal(response.data, blob);
+  assert.equal(await response.data.text(), 'blob-body');
+});
+
 test('webpack installer sets the Axios adapter before loading the background app', () => {
   const context = { bookmarkHubFetchAdapter: function fetchAdapter() {} };
   context.self = context;

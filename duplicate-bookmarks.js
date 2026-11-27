@@ -18,7 +18,8 @@
           });
           byUrl.set(node.url, bookmarks);
         } else if (node.children) {
-          const nextFolders = node.id === '0' ? folders : folders.concat(node.title || '未命名文件夹');
+          const isRoot = node.id === '0' || node.id === 'root________';
+          const nextFolders = isRoot ? folders : folders.concat(node.title || '未命名文件夹');
           visit(node.children, nextFolders);
         }
       }
@@ -34,5 +35,14 @@
     return groups.flatMap(({ bookmarks }) => bookmarks.slice(1).map(({ id }) => id));
   }
 
-  return { findDuplicateBookmarks, getSelectAllIds };
+  async function removeBookmarks(ids, remove) {
+    const results = await Promise.allSettled(ids.map((id) => Promise.resolve().then(() => remove(id))));
+    const failed = [];
+    results.forEach((result, index) => {
+      if (result.status === 'rejected') failed.push({ id: ids[index], error: result.reason });
+    });
+    return { removed: ids.length - failed.length, failed };
+  }
+
+  return { findDuplicateBookmarks, getSelectAllIds, removeBookmarks };
 });

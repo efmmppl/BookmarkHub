@@ -24,7 +24,8 @@ self.bookmarkHubFetchAdapter = function (config) {
     credentials: config.withCredentials ? 'include' : 'same-origin'
   }).then(function (response) {
     if (timeoutId) clearTimeout(timeoutId);
-    return response.text().then(function (data) {
+    var bodyPromise = config.responseType === 'blob' ? response.blob() : response.text();
+    return bodyPromise.then(function (data) {
       var responseHeaders = {};
       response.headers.forEach(function (value, name) {
         responseHeaders[name.toLowerCase()] = value;

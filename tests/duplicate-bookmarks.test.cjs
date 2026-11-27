@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { findDuplicateBookmarks, getSelectAllIds } = require('../duplicate-bookmarks.js');
+const { findDuplicateBookmarks, getSelectAllIds, removeBookmarks } = require('../duplicate-bookmarks.js');
 
 test('groups bookmarks only when their URLs are exactly identical', () => {
   const tree = [{
@@ -26,6 +26,26 @@ test('groups bookmarks only when their URLs are exactly identical', () => {
   ]);
 });
 
+test('skips the Firefox root node when building bookmark paths', () => {
+  const tree = [{
+    id: 'root________',
+    title: '',
+    children: [
+      { id: 'toolbar_____', title: 'Bookmarks Toolbar', children: [
+        { id: '1', title: 'A', url: 'https://example.com' },
+        { id: '2', title: 'B', url: 'https://example.com' }
+      ] }
+    ]
+  }];
+
+  const groups = findDuplicateBookmarks(tree);
+
+  assert.deepEqual(groups[0].bookmarks.map(({ path }) => path), [
+    'Bookmarks Toolbar',
+    'Bookmarks Toolbar'
+  ]);
+});
+
 test('select all keeps one bookmark in every duplicate group', () => {
   const groups = [
     { bookmarks: [{ id: '1' }, { id: '2' }, { id: '3' }] },
@@ -34,4 +54,18 @@ test('select all keeps one bookmark in every duplicate group', () => {
   ];
 
   assert.deepEqual(getSelectAllIds(groups), ['2', '3', '5']);
+});
+
+test('removeBookmarks removes every id and reports failures', async () => {
+  const removed = [];
+  const result = await removeBookmarks(['1', '2', '3'], async (id) => {
+    if (id === '2') throw new Error('boom');
+    removed.push(id);
+  });
+
+  assert.deepEqual(removed, ['1', '3']);
+  assert.equal(result.removed, 2);
+  assert.equal(result.failed.length, 1);
+  assert.equal(result.failed[0].id, '2');
+  assert.equal(result.failed[0].error.message, 'boom');
 });

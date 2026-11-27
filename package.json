@@ -1,0 +1,12 @@
+{
+  "name": "bookmarkhub",
+  "version": "0.0.4",
+  "private": true,
+  "description": "Sync bookmarks across browsers through GitHub Gist.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -25,13 +25,12 @@
     "notifications"
   ],
   "host_permissions": [
-    "https://*.github.com/*",
-    "https://*.githubusercontent.com/*"
+    "https://api.github.com/*",
+    "https://gist.githubusercontent.com/*"
   ],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false
   },
-  "content_scripts": [],
   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx"
 }

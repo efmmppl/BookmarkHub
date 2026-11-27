@@ -12,29 +12,29 @@
     selectAllButton.textContent = allSelected ? '取消全选' : '全选（每组保留一个）';
   }
 
-  function loadBookmarks() {
+  function loadBookmarks(prefix = '') {
     status.textContent = '正在扫描书签…';
     chrome.bookmarks.getTree((tree) => {
       if (chrome.runtime.lastError) {
-        status.textContent = `读取书签失败：${chrome.runtime.lastError.message}`;
+        status.textContent = `${prefix}读取书签失败：${chrome.runtime.lastError.message}`;
         return;
       }
       duplicates = BookmarkHubDuplicates.findDuplicateBookmarks(tree);
-      renderGroups();
+      renderGroups(prefix);
     });
   }
 
-  function renderGroups() {
+  function renderGroups(prefix = '') {
     groupsContainer.replaceChildren();
     if (!duplicates.length) {
-      status.textContent = '没有发现网址完全相同的重复书签。';
+      status.textContent = `${prefix}没有发现网址完全相同的重复书签。`;
       selectAllButton.disabled = true;
       deleteButton.disabled = true;
       return;
     }
 
-    status.textContent = `发现 ${duplicates.length} 组重复网址，共 ${duplicates.reduce((sum, group) => sum + group.bookmarks.length, 0)} 个书签。`;
-    duplicates.forEach((group, groupIndex) => {
+    status.textContent = `${prefix}发现 ${duplicates.length} 组重复网址，共 ${duplicates.reduce((sum, group) => sum + group.bookmarks.length, 0)} 个书签。`;
+    duplicates.forEach((group) => {
       const section = document.createElement('section');
       section.className = 'duplicate-group';
       const heading = document.createElement('h2');
@@ -93,16 +93,19 @@
 
     deleteButton.disabled = true;
     try {
-      for (const checkbox of selected) {
-        await new Promise((resolve, reject) => {
-          chrome.bookmarks.remove(checkbox.value, () => {
+      const { removed, failed } = await BookmarkHubDuplicates.removeBookmarks(
+        selected.map((checkbox) => checkbox.value),
+        (id) => new Promise((resolve, reject) => {
+          chrome.bookmarks.remove(id, () => {
             if (chrome.runtime.lastError) reject(new Error(chrome.runtime.lastError.message));
             else resolve();
           });
-        });
-      }
-      status.textContent = `已删除 ${selected.length} 个书签。正在重新扫描…`;
-      loadBookmarks();
+        })
+      );
+      const message = failed.length
+        ? `已删除 ${removed} 个书签，${failed.length} 个删除失败：${failed[0].error.message}。`
+        : `已删除 ${removed} 个书签。`;
+      loadBookmarks(message);
     } catch (error) {
       status.textContent = `删除失败：${error.message}`;
       deleteButton.disabled = false;
