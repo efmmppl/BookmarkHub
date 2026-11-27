@@ -1,4 +1,5 @@
 (function () {
+  const t = BookmarkHubI18n.t;
   const status = document.getElementById('status');
   const list = document.getElementById('revision-list');
   const refreshButton = document.getElementById('refresh');
@@ -30,15 +31,24 @@
     const gist = await api(`/gists/${settings.gistID}/${version}`);
     const file = BookmarkHubData.extractGistFile(gist, settings.gistFileName);
     if (!file.truncated) {
-      if (typeof file.content !== 'string') throw new Error('Gist 文件内容为空');
+      if (typeof file.content !== 'string') throw new Error(t('revisionEmptyError'));
       return file.content;
     }
-    if (!file.rawUrl) throw new Error('Gist 文件被截断且缺少 raw 地址');
+    if (!file.rawUrl) throw new Error(t('revisionTruncatedError'));
     const raw = await fetch(file.rawUrl, {
       headers: { Authorization: `token ${settings.githubToken}` }
     });
-    if (!raw.ok) throw new Error(`读取 raw 内容失败：${raw.status}`);
+    if (!raw.ok) throw new Error(`${t('rawFetchFailed')}${raw.status}`);
     return raw.text();
+  }
+
+  function getTree() {
+    return new Promise((resolve, reject) => {
+      chrome.bookmarks.getTree((tree) => {
+        if (chrome.runtime.lastError) reject(new Error(chrome.runtime.lastError.message));
+        else resolve(tree);
+      });
+    });
   }
 
   function formatDate(value) {
@@ -49,7 +59,7 @@
   function renderRevisions(revisions, append) {
     if (!append) list.replaceChildren();
     if (!revisions.length) {
-      status.textContent = append ? '没有更多版本了。' : '没有历史版本。';
+      status.textContent = append ? t('noMoreRevisions') : t('noRevisions');
       loadMoreButton.hidden = true;
       return;
     }
@@ -65,19 +75,19 @@
       sha.textContent = revision.version;
       const change = revision.change_status || {};
       const changes = document.createElement('small');
-      changes.textContent = `+${change.additions || 0} / -${change.deletions || 0}`;
+      changes.textContent = t('revisionChanges', [change.additions || 0, change.deletions || 0]);
       info.append(title, sha, changes);
 
       const actions = document.createElement('div');
       actions.className = 'revision-actions';
       const download = document.createElement('button');
       download.type = 'button';
-      download.textContent = '下载到本地';
+      download.textContent = t('downloadToLocal');
       download.addEventListener('click', () => restoreToLocal(revision, download));
       const restore = document.createElement('button');
       restore.type = 'button';
       restore.className = 'secondary';
-      restore.textContent = '恢复 Gist';
+      restore.textContent = t('restoreGist');
       restore.addEventListener('click', () => restoreGist(revision, restore));
       actions.append(download, restore);
 
@@ -90,39 +100,52 @@
 
   async function loadRevisions(append) {
     if (!append) page = 1;
-    status.textContent = '正在读取 Gist 历史…';
+    status.textContent = t('loadingHistory');
     refreshButton.disabled = true;
     try {
       const revisions = await api(`/gists/${settings.gistID}/commits?per_page=100&page=${page}`);
       renderRevisions(revisions, append);
-      if (list.children.length) status.textContent = `共加载 ${list.children.length} 个版本。`;
+      if (list.children.length) status.textContent = t('loadedCount', [list.children.length]);
     } catch (error) {
-      status.textContent = `读取失败：${error.message}`;
+      status.textContent = `${t('loadFailed')}${error.message}`;
     } finally {
       refreshButton.disabled = false;
     }
   }
 
   async function restoreToLocal(revision, button) {
-    if (!window.confirm(`将清空本地书签并写入 ${formatDate(revision.committed_at)} 的版本，确定吗？`)) return;
+    if (!window.confirm(t('confirmRestoreLocal', [formatDate(revision.committed_at)]))) return;
     button.disabled = true;
-    status.textContent = '正在恢复本地书签…';
+    status.textContent = t('restoringLocal');
+    let rollback = null;
     try {
+      const tree = await getTree();
+      rollback = BookmarkHubData.exportBookmarks(tree);
       const content = await fetchRevision(revision.version);
       const data = BookmarkHubData.parseBackup(content);
       const count = await BookmarkHubData.importBookmarks(data.bookmarks, chrome, { clear: true });
-      status.textContent = `已恢复 ${count} 个书签到本地。`;
+      status.textContent = t('restoredLocalCount', [count]);
     } catch (error) {
-      status.textContent = `恢复失败：${error.message}`;
+      if (rollback) {
+        try {
+          await BookmarkHubData.importBookmarks(rollback.bookmarks, chrome, { clear: true });
+          status.textContent = `${t('historyRestoreFailed')}${error.message}（${t('historyRolledBack')}）`;
+          return;
+        } catch (rollbackError) {
+          status.textContent = `${t('historyRestoreFailed')}${error.message}；${t('historyRollbackFailed')}${rollbackError.message}`;
+          return;
+        }
+      }
+      status.textContent = `${t('historyRestoreFailed')}${error.message}`;
     } finally {
       button.disabled = false;
     }
   }
 
   async function restoreGist(revision, button) {
-    if (!window.confirm(`把 Gist 回滚到 ${formatDate(revision.committed_at)} 的版本，确定吗？`)) return;
+    if (!window.confirm(t('confirmRestoreGist', [formatDate(revision.committed_at)]))) return;
     button.disabled = true;
-    status.textContent = '正在恢复 Gist…';
+    status.textContent = t('restoringGist');
     try {
       const content = await fetchRevision(revision.version);
       const response = await fetch(`${settings.githubURL}/gists/${settings.gistID}`, {
@@ -138,9 +161,9 @@
         const text = await response.text();
         throw new Error(`GitHub API ${response.status}: ${text.slice(0, 200)}`);
       }
-      status.textContent = 'Gist 已回滚到所选版本。';
+      status.textContent = t('gistRestored');
     } catch (error) {
-      status.textContent = `恢复失败：${error.message}`;
+      status.textContent = `${t('historyRestoreFailed')}${error.message}`;
     } finally {
       button.disabled = false;
     }
@@ -156,13 +179,13 @@
     try {
       settings = await getSettings();
       if (!settings.githubToken || !settings.gistID) {
-        status.textContent = '请先在设置中填写 GitHub Token 和 Gist ID。';
+        status.textContent = t('historyNeedSettings');
         refreshButton.disabled = true;
         return;
       }
       await loadRevisions(false);
     } catch (error) {
-      status.textContent = `初始化失败：${error.message}`;
+      status.textContent = `${t('historyInitFailed')}${error.message}`;
     }
   })();
 })();
