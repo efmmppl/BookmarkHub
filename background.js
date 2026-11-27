@@ -13,5 +13,6 @@ importScripts(
   'static/js/0.21c7cb30.chunk.js',
   'static/js/8.8c0486d4.chunk.js',
   'static/js/install-service-worker-fetch-adapter.js',
-  'static/js/background.db1159e9.chunk.js'
+  'static/js/background.db1159e9.chunk.js',
+  'static/js/settings-bridge.js'
 );

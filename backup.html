@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>备份与恢复 - BookmarkHub</title>
+  <link rel="stylesheet" href="duplicate-bookmarks.css">
+  <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+  <main class="page">
+    <h1>备份与恢复</h1>
+    <p class="intro">把本地书签导出为 JSON 备份，或从备份文件导入。导入默认合入“其他书签”。</p>
+    <div class="toolbar">
+      <div id="status" role="status" aria-live="polite">正在准备…</div>
+      <div class="toolbar-actions">
+        <button id="export" type="button">导出备份</button>
+        <button id="import" type="button">导入备份</button>
+      </div>
+    </div>
+    <p id="local-count" class="intro"></p>
+    <label class="bookmark-row">
+      <input id="clear-first" type="checkbox">
+      <span>导入前清空本地书签（危险，请先导出备份）</span>
+    </label>
+    <input id="backup-file" type="file" accept="application/json,.json" hidden>
+  </main>
+  <script src="bookmark-data.js"></script>
+  <script src="backup-page.js"></script>
+</body>
+</html>
